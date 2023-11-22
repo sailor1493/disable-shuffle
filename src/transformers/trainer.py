@@ -332,6 +332,7 @@ class Trainer:
         callbacks: Optional[List[TrainerCallback]] = None,
         optimizers: Tuple[torch.optim.Optimizer, torch.optim.lr_scheduler.LambdaLR] = (None, None),
         preprocess_logits_for_metrics: Optional[Callable[[torch.Tensor, torch.Tensor], torch.Tensor]] = None,
+        shuffle=True,
     ):
         if args is None:
             output_dir = "tmp_trainer"
@@ -343,6 +344,7 @@ class Trainer:
         self.hp_name = None
         self.deepspeed = None
         self.is_in_train = False
+        self.shuffle = shuffle
 
         self.create_accelerator_and_postprocess()
 
@@ -815,8 +817,10 @@ class Trainer:
                 model_input_name=model_input_name,
             )
 
-        else:
+        elif self.shuffle:
             return RandomSampler(self.train_dataset)
+        else:
+            return SequentialSampler(self.train_dataset)
 
     def get_train_dataloader(self) -> DataLoader:
         """
