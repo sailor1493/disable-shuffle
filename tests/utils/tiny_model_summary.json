@@ -2436,7 +2436,7 @@
         "model_classes": [
             "FuyuForCausalLM"
         ],
-        "sha": "e6dbfc663896058a8b0f1f6ce0968ce30d8832ec"
+        "sha": "685d78258ea95c5c82e0e4555d0d4a2270ab8bff"
     },
     "GLPNForDepthEstimation": {
         "tokenizer_classes": [],
