@@ -1148,7 +1148,9 @@ def build(config_class, models_to_create, output_dir):
         if hasattr(tiny_config, k):
             setattr(tiny_config, k, v)
         # So far, we only have to deal with `text_config`, as `config_overrides` contains text-related attributes only.
-        elif (
+        # `FuyuConfig` saves data under both FuyuConfig and its `text_config`. This is not good, but let's just update
+        # every involved fields to avoid potential failure.
+        if (
             hasattr(tiny_config, "text_config")
             and tiny_config.text_config is not None
             and hasattr(tiny_config.text_config, k)
